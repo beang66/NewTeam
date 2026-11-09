@@ -1,0 +1,61 @@
+:root {
+  /* 팔레트: 기본 세 색(#000000 바탕, #2779a7 포인트, #ffffff 글자)에 무채색 회색 단계를 더한다. 유채색은 #2779a7 하나뿐이다.
+     #2779a7은 검정 위 작은 글자 대비가 약 4.4:1이라 면·테두리·굵은 표시에만 쓰고 본문 글자에는 쓰지 않는다. */
+  --c-black: #000000;
+  --c-accent: #2779a7;
+  --c-white: #ffffff;
+  --c-gray-950: #0d0d0d;
+  --c-gray-900: #161616;
+  --c-gray-850: #1f1f1f;
+  --c-gray-800: #2a2a2a;
+  --c-gray-700: #3d3d3d;
+  --c-gray-500: #8a8a8a;
+  --c-gray-400: #a3a3a3;
+  --c-gray-200: #d4d4d4;
+  --c-gray-100: #ededed;
+  --bg: var(--c-black);
+  --surface-1: var(--c-gray-950);
+  --surface-2: var(--c-gray-900);
+  --surface-3: var(--c-gray-850);
+  --line: var(--c-gray-800);
+  --line-strong: var(--c-gray-700);
+  --ink: var(--c-white);
+  --ink-muted: var(--c-gray-200);
+  --ink-subtle: var(--c-gray-400);
+  --ink-faint: var(--c-gray-500);
+  --accent: var(--c-accent);
+  --accent-hover: color-mix(in srgb, var(--c-accent) 80%, var(--c-white));
+  --accent-soft: rgba(39, 121, 167, 0.22);
+  /* 상태는 색이 아니라 아이콘·문구·형태로 구분한다(통합 기준 4장). 성공만 포인트색, 실패·주의는 흰색 + 형태. */
+  --ok: var(--c-accent);
+  --bad: var(--c-white);
+  --warn: var(--c-white);
+
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-20: 20px;
+
+  --font-body: 'Pretendard Variable', 'Pretendard', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --dur: 200ms;
+  --sticky-offset: 72px;
+  --dur-press: 160ms;
+  --dur-pop: 150ms;
+  /* 기본 ease는 힘이 약하다. 들어오고 반응하는 움직임은 ease-out, 옆에서 나오는 패널은 drawer 곡선. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}

@@ -1,0 +1,28 @@
+/* Document ("paper") area: reading screens only. The control screen keeps the dark tokens. */
+.paper {
+  --p-bg: #ffffff; --p-sheet: #ffffff;
+  --p-ink: #000000; --p-ink2: #333333; --p-ink3: #595959;
+  --p-rule: #000000; --p-hair: #d4d4d4; --p-tint: #ededed;
+  --p-ok: #2779a7; --p-bad: #000000; --p-warn: #000000; --p-now: #2779a7;
+  --serif: 'Noto Serif KR', 'Nanum Myeongjo', 'Source Han Serif K', Georgia, serif;
+  background: var(--p-bg); color: var(--p-ink);
+  font: 400 var(--fs-14)/1.6 var(--font-body);
+}
+.paper ::selection { background: #2779a7; color: #ffffff; }
+.paper a { color: var(--p-now); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.paper h1, .paper h2, .paper h3 { font-family: var(--serif); font-weight: 700; line-height: 1.3; margin: var(--space-4) 0 var(--space-2); }
+.paper h1 { font-size: var(--fs-20); }
+.paper h2, .paper h3 { font-size: var(--fs-16); }
+.paper h2 { border-top: 1.5px solid var(--p-rule); padding-top: var(--space-2); }
+.paper p { margin: 0 0 var(--space-2); color: var(--p-ink2); overflow-wrap: anywhere; }
+.paper ul, .paper ol { margin: 0 0 var(--space-2); padding-left: var(--space-5); color: var(--p-ink2); }
+.paper li { overflow-wrap: anywhere; }
+.paper code { font-family: var(--font-mono); font-size: var(--fs-12); background: var(--p-tint); padding: 0 var(--space-1); }
+.paper pre { overflow-x: auto; background: var(--p-tint); padding: var(--space-2); border: 1px solid var(--p-hair); }
+.paper pre code { background: none; padding: 0; }
+.paper table { border-collapse: collapse; width: 100%; font-size: var(--fs-13); }
+.paper th { text-align: left; font-size: var(--fs-12); color: var(--p-ink3); padding: var(--space-1) var(--space-2); border-bottom: 1.5px solid var(--p-rule); }
+.paper td { padding: var(--space-1) var(--space-2); border-bottom: 1px solid var(--p-hair); vertical-align: top; }
+.paper hr { border: 0; border-top: 1px solid var(--p-hair); margin: var(--space-3) 0; }
+.paper blockquote { margin: 0 0 var(--space-2); padding-left: var(--space-3); border-left: 3px solid var(--p-hair); color: var(--p-ink3); }
+.paper .paper-empty { color: var(--p-ink3); }
