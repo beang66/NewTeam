@@ -1,22 +1,59 @@
-# NEWTEAMs
+<div align="center">
+  <h1 align="center">
+    NEWTEAMs
+    <br />
+    <br />
+    <img src="docs/screenshots/latest/home-latest.jpg" alt="NEWTEAMs 홈 대시보드" width="880">
+  </h1>
+</div>
 
-> 여러 AI 에이전트의 작업을 관제하고, 사람이 개입할 순간과 결과의 근거를 한 화면에서 확인하는 로컬 운영 시스템입니다.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=white" alt="React Vite">
+  <img src="https://img.shields.io/badge/TypeScript-Node.js-3178C6?logo=typescript&logoColor=white" alt="TypeScript Node.js">
+  <img src="https://img.shields.io/badge/Fastify-orchestrator-000000?logo=fastify&logoColor=white" alt="Fastify orchestrator">
+  <img src="https://img.shields.io/badge/Vitest-588_passed-6E9F18?logo=vitest&logoColor=white" alt="Vitest 588 passed">
+  <img src="https://img.shields.io/badge/Playwright-QA_evidence-2EAD33?logo=playwright&logoColor=white" alt="Playwright QA evidence">
+  <img src="https://img.shields.io/badge/status-local_prototype-lightgrey" alt="status local prototype">
+</p>
 
-[제품 정의](PRODUCT.md) · [사용자 시나리오](docs/scenarios/2026-10-28-user-scenarios.md) · [운영 의사결정](docs/decisions.md) · [보안 원칙](docs/security.md)
+## Introduction
 
-![NEWTEAMs 최신 홈 대시보드](docs/screenshots/latest/home-latest.jpg)
+하나의 작업 에이전트가 직무 · 과정 · 기준 문서를 그래프로 따라 읽으며 프로젝트를 끝까지 수행하게 하는 **싱글 에이전트 오케스트레이터**입니다. 역할은 필요한 단계에서만 붙고, 기본적으로는 한 에이전트가 단계마다 읽을 문서를 바꿔 가며 일합니다. 결과는 다른 모델(GPT)이 읽기 전용으로 검수합니다. 개발자와 콘텐츠 크리에이터를 위해 만들었고, 1차 작업 팩은 웹앱 개발입니다.
 
-<sub>2026년 11월 9일 로컬 `main` 실행 화면입니다. 사용량은 실제 실행 기록이며, 홈의 일부 업무 데이터는 예시입니다.</sub>
+```text
+작업 노드 → 지식 → 과정 → 도구 → 완수 기준 → 선행 작업의 기준
+```
 
-## 이 README에서 확인할 내용
+- **검색이 아니라 순회합니다 (그래프 엔지니어링)**
 
-| 궁금한 점 | 바로가기 |
-| --- | --- |
-| 어떤 문제를 해결하나 | [프로젝트 개요](#프로젝트-개요) |
-| 에이전트와 사람은 어떻게 협업하나 | [운영 흐름](#운영-흐름) |
-| 실제 화면은 어떤가 | [제품 둘러보기](#제품-둘러보기) |
-| 결과를 어떻게 신뢰하나 | [신뢰를 만드는 설계](#신뢰를-만드는-설계) |
-| 직접 실행하려면 | [로컬 실행](#로컬-실행) |
+> Obsidian Vault의 `전문가 그래프` 노트를 노드로, 작업 노트의 6개 키(`applies_to` · `knowledge` · `process` · `tools` · `done` · `requires`)를 엣지로 읽습니다. 임베딩 검색과 달리 매번 같은 경로를 읽고, 프롬프트에 "읽은 경로"를 남겨 반려 원인이 문서 부족인지 가릴 수 있습니다.
+
+- **역할은 필요할 때만 붙습니다**
+
+> 기획 · 개발 · QA · 보고는 같은 작업 에이전트가 단계별 문서를 읽어 수행하고, 병렬 개발이나 교착 해결처럼 필요한 순간에만 역할을 나눕니다. 승인과 반려는 GPT가 따로 내립니다.
+
+- **기준은 Vault에서 바로 고칩니다**
+
+> 파이프라인 설계와 단계별 완수 기준을 매 실행마다 Vault에서 새로 읽어, Obsidian에서 고친 기준이 다음 실행에 바로 반영됩니다. 사람은 스펙 승인과 교착에서만 개입합니다.
+
+## Installation
+
+Node.js 20 이상이 필요합니다.
+
+```bash
+npm install
+npm --prefix orchestrator install
+npm --prefix dashboard install
+npm run dev
+```
+
+실제 모델 호출, Telegram 연결, Vault 경로는 로컬 설정이 필요합니다.
+
+```bash
+npm test
+npm run build
+```
+
 
 ## 프로젝트 개요
 
@@ -26,7 +63,7 @@ NEWTEAMs는 더 많은 알림 대신 더 적은 개입으로도 안심할 수 �
 
 | 구분 | 내용 |
 | --- | --- |
-| 사용자 | 여러 AI 에이전트의 작업을 혼자 운영하는 기획·개발 실무자 |
+| 사용자 | AI 에이전트에게 일을 맡기고 혼자 운영하는 개발자 · 콘텐츠 크리에이터 |
 | 핵심 문제 | 진행 불안, 개입 피로, 반복 비용, 결과에 대한 불신 |
 | 핵심 경험 | 관제 → 필요한 순간만 개입 → 근거를 따라 결과 검증 |
 | 기술 | React, TypeScript, Vite, Node.js, Fastify, Vitest, Playwright |
@@ -111,24 +148,6 @@ Node.js Orchestrator
   └─ 로컬 파일 기반 실행 상태
 ```
 
-## 로컬 실행
-
-Node.js 20 이상이 필요합니다.
-
-```bash
-npm install
-npm --prefix orchestrator install
-npm --prefix dashboard install
-npm run dev
-```
-
-실제 모델 호출, Telegram 연결, Vault 경로는 로컬 설정이 필요합니다.
-
-```bash
-npm test
-npm run build
-```
-
 ## 문서 안내
 
 README는 제품을 빠르게 이해하기 위한 시작점입니다. 세부 개념, 운영 규칙, 설정 방법은 기존 문서에서 이어집니다.
@@ -149,3 +168,7 @@ README는 제품을 빠르게 이해하기 위한 시작점입니다. 세부 개
 - 사용자의 개입 시간, 완료 신뢰도, 운영 비용 변화는 아직 측정하지 않았습니다.
 - 모델 제공자와 외부 연동 상태에 따라 일부 기능을 사용할 수 없습니다.
 - 장시간 실행과 다수 프로젝트 동시 운영은 추가 검증이 필요합니다.
+
+## Author
+
+안정빈 — 제품 기획 · 설계 · AI 코딩 도구 기반 구현 (개인)
