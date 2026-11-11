@@ -1,22 +1,59 @@
-# NEWTEAMs
+<div align="center">
+  <h1 align="center">
+    NEWTEAMs
+    <br />
+    <br />
+    <img src="docs/screenshots/latest/home-latest.jpg" alt="NEWTEAMs 홈 대시보드" width="880">
+  </h1>
+</div>
 
-> 여러 AI 에이전트의 작업을 관제하고, 사람이 개입할 순간과 결과의 근거를 한 화면에서 확인하는 로컬 운영 시스템입니다.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=white" alt="React Vite">
+  <img src="https://img.shields.io/badge/TypeScript-Node.js-3178C6?logo=typescript&logoColor=white" alt="TypeScript Node.js">
+  <img src="https://img.shields.io/badge/Fastify-orchestrator-000000?logo=fastify&logoColor=white" alt="Fastify orchestrator">
+  <img src="https://img.shields.io/badge/Vitest-588_passed-6E9F18?logo=vitest&logoColor=white" alt="Vitest 588 passed">
+  <img src="https://img.shields.io/badge/Playwright-QA_evidence-2EAD33?logo=playwright&logoColor=white" alt="Playwright QA evidence">
+  <img src="https://img.shields.io/badge/status-local_prototype-lightgrey" alt="status local prototype">
+</p>
 
-[제품 정의](PRODUCT.md) · [사용자 시나리오](docs/scenarios/2026-10-28-user-scenarios.md) · [운영 의사결정](docs/decisions.md) · [보안 원칙](docs/security.md)
+## Introduction
 
-![NEWTEAMs 최신 홈 대시보드](docs/screenshots/latest/home-latest.jpg)
+프로젝트 하나를 요구사항 수집부터 완료 보고까지 **역할별 AI 에이전트**가 수행하게 하는 로컬 멀티 에이전트 오케스트레이터와, 그 과정을 관제하는 대시보드입니다. 에이전트 파이프라인을 혼자 운영하는 기획 · 개발 실무자를 위해 만들었고, 1차 도메인 팩은 웹앱 개발입니다. 콘텐츠 · SNS, 리서치 · 문서 팩은 이후에 붙입니다.
 
-<sub>2026년 11월 9일 로컬 `main` 실행 화면입니다. 사용량은 실제 실행 기록이며, 홈의 일부 업무 데이터는 예시입니다.</sub>
+```text
+INTAKE → SPEC 승인(사람) → PLAN ⇄ GPT 검수 → BUILD(병렬) ⇄ QA + GPT 검수 → INTEGRATE → FINAL_QA → REPORT
+```
 
-## 이 README에서 확인할 내용
+- **다른 모델이 서로를 검수합니다**
 
-| 궁금한 점 | 바로가기 |
-| --- | --- |
-| 어떤 문제를 해결하나 | [프로젝트 개요](#프로젝트-개요) |
-| 에이전트와 사람은 어떻게 협업하나 | [운영 흐름](#운영-흐름) |
-| 실제 화면은 어떤가 | [제품 둘러보기](#제품-둘러보기) |
-| 결과를 어떻게 신뢰하나 | [신뢰를 만드는 설계](#신뢰를-만드는-설계) |
-| 직접 실행하려면 | [로컬 실행](#로컬-실행) |
+> 마스터 · 기획 · 개발 · QA · 위키 역할을 Claude(또는 Codex)가 맡고, 승인과 반려는 GPT가 읽기 전용으로 내립니다. 승인이 날 때까지 수정 루프를 돕니다.
+
+- **사람은 필요한 순간에만 개입합니다**
+
+> 스펙 승인과 교착(반려 3회 또는 같은 지적 2회)일 때만 사람에게 넘기고, 나머지는 정책에 따라 조용히 진행합니다.
+
+- **완료에는 증거가 따라옵니다**
+
+> 모든 메시지는 오케스트레이터를 거쳐 사람용 기록과 원본 로그로 나뉘어 저장되고, 요약에서 테스트 · 캡처 · 판정까지 따라갈 수 있습니다.
+
+## Installation
+
+Node.js 20 이상이 필요합니다.
+
+```bash
+npm install
+npm --prefix orchestrator install
+npm --prefix dashboard install
+npm run dev
+```
+
+실제 모델 호출, Telegram 연결, Vault 경로는 로컬 설정이 필요합니다.
+
+```bash
+npm test
+npm run build
+```
+
 
 ## 프로젝트 개요
 
@@ -111,24 +148,6 @@ Node.js Orchestrator
   └─ 로컬 파일 기반 실행 상태
 ```
 
-## 로컬 실행
-
-Node.js 20 이상이 필요합니다.
-
-```bash
-npm install
-npm --prefix orchestrator install
-npm --prefix dashboard install
-npm run dev
-```
-
-실제 모델 호출, Telegram 연결, Vault 경로는 로컬 설정이 필요합니다.
-
-```bash
-npm test
-npm run build
-```
-
 ## 문서 안내
 
 README는 제품을 빠르게 이해하기 위한 시작점입니다. 세부 개념, 운영 규칙, 설정 방법은 기존 문서에서 이어집니다.
@@ -149,3 +168,7 @@ README는 제품을 빠르게 이해하기 위한 시작점입니다. 세부 개
 - 사용자의 개입 시간, 완료 신뢰도, 운영 비용 변화는 아직 측정하지 않았습니다.
 - 모델 제공자와 외부 연동 상태에 따라 일부 기능을 사용할 수 없습니다.
 - 장시간 실행과 다수 프로젝트 동시 운영은 추가 검증이 필요합니다.
+
+## Author
+
+안정빈 — 제품 기획 · 설계 · AI 코딩 도구 기반 구현 (개인)
